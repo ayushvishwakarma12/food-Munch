@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Right from "../icons/Right";
 
 export default function Hero() {
@@ -30,6 +30,7 @@ export default function Hero() {
           layout={"fill"}
           objectFit={"contain"}
           alt={"pizza"}
+          priority
         />
       </div>
     </section>
