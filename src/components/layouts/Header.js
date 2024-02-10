@@ -9,6 +9,7 @@ export default function Header() {
   const session = useSession();
   const status = session.status;
   const userData = session.data?.user;
+  //console.log(userData);
   let name = userData?.name || userData?.email;
 
   useEffect(() => {

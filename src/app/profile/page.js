@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import UserTabs from "../../components/layouts/UserTabs";
 
 export default function ProfilePage() {
   const session = useSession();
@@ -16,6 +17,8 @@ export default function ProfilePage() {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [profileFetched, setProfileFetched] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -27,6 +30,8 @@ export default function ProfilePage() {
           setCity(data.city);
           setCountry(data.country);
           setUserName(data.name);
+          setIsAdmin(data.admin);
+          setProfileFetched(true);
         });
       });
     }
@@ -67,7 +72,7 @@ export default function ProfilePage() {
     }
   }
 
-  if (status === "loading") {
+  if (status === "loading" || !profileFetched) {
     return "loading...";
   }
 
@@ -76,7 +81,7 @@ export default function ProfilePage() {
   }
   return (
     <section className="mt-8">
-      <h1 className="text-center mb-4 text-primary text-4xl">Profile</h1>
+      <UserTabs isAdmin={isAdmin} />
       <div className="max-w-md mx-auto">
         {saved && (
           <h2 className="text-center bg-green-100 p-4 rounded-lg border border-1 border-green-300">
@@ -89,7 +94,7 @@ export default function ProfilePage() {
           </h2>
         )}
       </div>
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto mt-8">
         <div className="flex gap-2">
           <div className="p-2 rounded-lg">
             <Image src={"/"} width={80} height={80} alt="avtar" />
