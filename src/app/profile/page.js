@@ -5,6 +5,8 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import UserTabs from "../../components/layouts/UserTabs";
+import { UploadPic, DeletePic } from "../../components/utils/Cloudinary";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const session = useSession();
@@ -19,6 +21,9 @@ export default function ProfilePage() {
   const [country, setCountry] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [profileFetched, setProfileFetched] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [isFormSubmit, setIsFormSubmit] = useState(false);
+  const [publicId, setPublicId] = useState("");
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -35,7 +40,17 @@ export default function ProfilePage() {
         });
       });
     }
+    return () => {
+      if (publicId && !isFormSubmit) {
+        console.log("function");
+        DeletePic(publicId);
+      }
+    };
   }, [session, status]);
+
+  function deletePreviousImage() {
+    DeletePic(publicId);
+  }
 
   async function handleProfileInfoUpdate(event) {
     event.preventDefault();
@@ -45,6 +60,7 @@ export default function ProfilePage() {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
+        imageUrl,
         name: userName,
         streetAddress,
         phone,
@@ -54,20 +70,34 @@ export default function ProfilePage() {
       }),
     });
     setIsSaving(false);
+    setIsFormSubmit(true);
     if (response.ok) {
       setSaved(true);
     }
   }
 
   async function handleFileChange(event) {
-    const files = event.files;
+    const files = event.target.files;
+
+    if (publicId) {
+      deletePreviousImage();
+    }
 
     if (files?.length > 0) {
-      const data = new FormData();
-      data.set("files", files);
-      await fetch("/api/upload", {
-        method: "POST",
-        body: data,
+      const promise = new Promise(async (resolve, reject) => {
+        const response = await UploadPic(files[0]);
+        if (response.secure_url) {
+          setImageUrl(response.secure_url);
+          setPublicId(response.public_id);
+          resolve();
+        } else {
+          reject();
+        }
+      });
+      toast.promise(promise, {
+        loading: "Loading...",
+        success: "Pic uploaded successfully",
+        error: "Error when uploading",
       });
     }
   }
@@ -97,7 +127,7 @@ export default function ProfilePage() {
       <div className="max-w-md mx-auto mt-8">
         <div className="flex gap-2">
           <div className="p-2 rounded-lg">
-            <Image src={"/"} width={80} height={80} alt="avtar" />
+            <img src={imageUrl} alt="avtar" />
             <label>
               <input
                 type="file"

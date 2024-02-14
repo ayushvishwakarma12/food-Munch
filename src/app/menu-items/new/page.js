@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useProfile } from "../../../components/UseProfile";
 import UserTabs from "../../../components/layouts/UserTabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Left from "@/components/icons/Left";
 import { redirect } from "next/navigation";
+import { DeletePic } from "@/components/utils/Cloudinary";
+import { UploadPic } from "@/components/utils/Cloudinary";
 
 export default function NewMenuItemPage() {
   const { loading, data } = useProfile();
@@ -15,10 +17,22 @@ export default function NewMenuItemPage() {
   const [description, setDescription] = useState("");
   const [basePrice, setBasePrice] = useState("");
   const [redirectToItems, setRedirectToItems] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [publicId, setPublicId] = useState("");
+  const [isFormSubmit, setIsFormSubmit] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (publicId && !isFormSubmit) {
+        console.log("function");
+        DeletePic(publicId);
+      }
+    };
+  }, [publicId]);
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    const data = { name, description, basePrice };
+    const data = { imageUrl, name, description, basePrice };
 
     const savingPromise = new Promise(async (resolve, reject) => {
       const response = await fetch("/api/menu-items", {
@@ -28,6 +42,7 @@ export default function NewMenuItemPage() {
       });
       if (response.ok) {
         resolve();
+        setIsFormSubmit(true);
       } else {
         reject();
       }
@@ -39,6 +54,39 @@ export default function NewMenuItemPage() {
     });
 
     setRedirectToItems(true);
+  }
+
+  function deletePreviousImage() {
+    DeletePic(publicId);
+  }
+
+  async function handleFileChange(event) {
+    console.log(event);
+    const files = event.target.files;
+    //const arrayBuffer = await files.arrayBuffer();
+    //UploadPic(arrayBuffer);
+
+    if (publicId) {
+      deletePreviousImage();
+    }
+
+    if (files?.length > 0) {
+      const promise = new Promise(async (resolve, reject) => {
+        const response = await UploadPic(files[0]);
+        if (response.secure_url) {
+          setImageUrl(response.secure_url);
+          setPublicId(response.public_id);
+          resolve();
+        } else {
+          reject();
+        }
+      });
+      toast.promise(promise, {
+        loading: "Loading...",
+        success: "Pic uploaded successfully",
+        error: "Error when uploading",
+      });
+    }
   }
 
   if (redirectToItems) {
@@ -63,8 +111,24 @@ export default function NewMenuItemPage() {
         </Link>
       </div>
       <form className="mt-8 max-w-md mx-auto" onSubmit={handleFormSubmit}>
-        <div className="flex gap-2 items-start">
-          <div>Image</div>
+        <div
+          className="grid gap-4 items-start"
+          style={{ gridTemplateColumns: ".3fr .7fr" }}
+        >
+          <div className="p-2 rounded-lg">
+            <img src={imageUrl} className="" alt="avtar" />
+            <label>
+              <input
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
+                Edit
+              </span>
+            </label>
+          </div>
+
           <div className="grow">
             <label>Item name</label>
             <input
