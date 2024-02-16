@@ -37,8 +37,12 @@ export default function MenuItemsPage() {
       <div>
         <h2 className="text-sm text-gray-500 mt-8">Edit menu items:</h2>
         {menuItems.length > 0 &&
-          menuItems.map((item) => (
-            <Link href={"/menu-items/edit/" + item._id} className="button mb-1">
+          menuItems.map((item, i) => (
+            <Link
+              key={i}
+              href={"/menu-items/edit/" + item._id}
+              className="button mb-1"
+            >
               {item.name}
             </Link>
           ))}

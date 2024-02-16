@@ -9,6 +9,7 @@ import Left from "@/components/icons/Left";
 import { redirect } from "next/navigation";
 import { DeletePic } from "@/components/utils/Cloudinary";
 import { UploadPic } from "@/components/utils/Cloudinary";
+import MenuItemPriceProps from "@/components/layouts/MenuItemPriceProps";
 
 export default function NewMenuItemPage() {
   const { loading, data } = useProfile();
@@ -20,8 +21,16 @@ export default function NewMenuItemPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [isFormSubmit, setIsFormSubmit] = useState(false);
+  const [sizes, setSizes] = useState([]);
+  const [extraIngredientPrices, setExtraIngredeintPrices] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
 
+  console.log(category);
   useEffect(() => {
+    fetch("/api/categories").then((res) => {
+      res.json().then((categories) => setCategories(categories));
+    });
     return () => {
       if (publicId && !isFormSubmit) {
         console.log("function");
@@ -32,7 +41,16 @@ export default function NewMenuItemPage() {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    const data = { imageUrl, name, description, basePrice };
+    const data = {
+      imageUrl,
+      name,
+      description,
+      basePrice,
+      sizes,
+      extraIngredientPrices,
+      category,
+    };
+    console.log(sizes, extraIngredientPrices);
 
     const savingPromise = new Promise(async (resolve, reject) => {
       const response = await fetch("/api/menu-items", {
@@ -142,11 +160,31 @@ export default function NewMenuItemPage() {
               onChange={(event) => setDescription(event.target.value)}
               type="text"
             />
+            <label>Category</label>
+            <select
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+            >
+              {categories?.length > 0 &&
+                categories.map((c) => <option value={c._id}>{c.name}</option>)}
+            </select>
             <label>Base price</label>
             <input
               value={basePrice}
               onChange={(event) => setBasePrice(event.target.value)}
               type="text"
+            />
+            <MenuItemPriceProps
+              name={"Sizes"}
+              addLabel={"Add item size"}
+              props={sizes}
+              setProps={setSizes}
+            />
+            <MenuItemPriceProps
+              name={"Extra ingredients"}
+              addLabel={"Add ingredeints price"}
+              props={extraIngredientPrices}
+              setProps={setExtraIngredeintPrices}
             />
             <button type="submit">Save</button>
           </div>
