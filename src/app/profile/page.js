@@ -7,34 +7,25 @@ import { useEffect, useState } from "react";
 import UserTabs from "../../components/layouts/UserTabs";
 import { UploadPic, DeletePic } from "../../components/utils/Cloudinary";
 import toast from "react-hot-toast";
+import UserForm from "@/components/layouts/UserForm";
 
 export default function ProfilePage() {
   const session = useSession();
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState(null);
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { status } = session;
-  const [phone, setPhone] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [profileFetched, setProfileFetched] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const [isFormSubmit, setIsFormSubmit] = useState(false);
   const [publicId, setPublicId] = useState("");
+  const [isFormSubmit, setIsFormSubmit] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
       fetch("/api/profile").then((response) => {
         response.json().then((data) => {
-          setPhone(data.phone);
-          setStreetAddress(data.streetAddress);
-          setPostalCode(data.postalCode);
-          setCity(data.city);
-          setCountry(data.country);
-          setUserName(data.name);
+          setUser(data);
           setIsAdmin(data.admin);
           setProfileFetched(true);
         });
@@ -42,8 +33,8 @@ export default function ProfilePage() {
     }
     return () => {
       if (publicId && !isFormSubmit) {
-        console.log("function");
         DeletePic(publicId);
+        console.log("pic deleted");
       }
     };
   }, [session, status]);
@@ -52,22 +43,14 @@ export default function ProfilePage() {
     DeletePic(publicId);
   }
 
-  async function handleProfileInfoUpdate(event) {
+  async function handleProfileInfoUpdate(event, data) {
     event.preventDefault();
     setSaved(false);
     setIsSaving(true);
     const response = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        imageUrl,
-        name: userName,
-        streetAddress,
-        phone,
-        postalCode,
-        city,
-        country,
-      }),
+      body: JSON.stringify(data),
     });
     setIsSaving(false);
     setIsFormSubmit(true);
@@ -125,78 +108,12 @@ export default function ProfilePage() {
         )}
       </div>
       <div className="max-w-md mx-auto mt-8">
-        <div className="flex gap-2">
-          <div className="p-2 rounded-lg">
-            <img src={imageUrl} alt="avtar" />
-            <label>
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
-                Edit
-              </span>
-            </label>
-          </div>
-          <form className="grow" onSubmit={handleProfileInfoUpdate}>
-            <label>First and Last name</label>
-            <input
-              type="text"
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
-              placeholder="First and last name"
-            />
-            <label>Email</label>
-            <input
-              type="email"
-              value={session?.data?.user?.email}
-              disabled={true}
-            />
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Phone number"
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-            />
-            <label>Street Address</label>
-            <input
-              type="text"
-              placeholder="Street address"
-              value={streetAddress}
-              onChange={(event) => setStreetAddress(event.target.value)}
-            />
-            <div className="flex gap-2">
-              <div>
-                <label>City</label>
-                <input
-                  type="text"
-                  placeholder="City"
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
-                />
-              </div>
-              <div>
-                <label>Postal Code</label>
-                <input
-                  type="text"
-                  placeholder="Postal code"
-                  value={postalCode}
-                  onChange={(event) => setPostalCode(event.target.value)}
-                />
-              </div>
-            </div>
-            <label>Country</label>
-            <input
-              type="text"
-              placeholder="Country"
-              value={country}
-              onChange={(event) => setCountry(event.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+        <UserForm
+          user={user}
+          onSave={handleProfileInfoUpdate}
+          handleFileChange={handleFileChange}
+          imageUrl={imageUrl}
+        />
       </div>
     </section>
   );
