@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../AppContext";
+import ShoppingCart from "@/components/icons/ShoppingCart";
 
 export default function Header() {
   const [userName, setUserName] = useState("");
@@ -11,6 +13,7 @@ export default function Header() {
   const userData = session.data?.user;
   //console.log(userData);
   let name = userData?.name || userData?.email;
+  const { cartProducts } = useContext(CartContext);
 
   useEffect(() => {
     fetch("/api/profile").then((response) => {
@@ -25,17 +28,18 @@ export default function Header() {
   } else {
     name = userData?.email;
   }
+  console.log(cartProducts);
 
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex items-center justify-between px-12 py-4">
       <nav className="flex items-center gap-8 text-gray-500 font-semibold">
         <Link className="text-primary font-semibold text-2xl" href={"/"}>
           ST PIZZA
         </Link>
         <Link href={"/"}>Home</Link>
-        <Link href={""}>Menu</Link>
-        <Link href={""}>About</Link>
-        <Link href={""}>Contact</Link>
+        <Link href={"/menu"}>Menu</Link>
+        <Link href={"/#about"}>About</Link>
+        <Link href={"/#contact"}>Contact</Link>
       </nav>
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
         {status === "authenticated" && (
@@ -62,6 +66,13 @@ export default function Header() {
             </Link>
           </>
         )}
+
+        <Link href={"/cart"} className="relative">
+          <ShoppingCart />
+          <span className="absolute -top-2 -right-4 bg-primary text-white text-sm py-1 px-2 rounded-full leading-3">
+            {cartProducts?.length}
+          </span>
+        </Link>
       </nav>
     </header>
   );

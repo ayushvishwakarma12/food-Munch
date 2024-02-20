@@ -50,7 +50,7 @@ export default function NewMenuItemPage() {
       extraIngredientPrices,
       category,
     };
-    console.log(sizes, extraIngredientPrices);
+    console.log(data, sizes, extraIngredientPrices);
 
     const savingPromise = new Promise(async (resolve, reject) => {
       const response = await fetch("/api/menu-items", {
