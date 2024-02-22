@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { CartContext } from "../AppContext";
 import toast from "react-hot-toast";
 import MenuItemTile from "./MenuItemTile";
-import Image from "next/image";
 
 export default function MenuItem(menuItem) {
   const {
@@ -13,6 +12,7 @@ export default function MenuItem(menuItem) {
     sizes,
     extraIngredientPrices,
   } = menuItem;
+
   const { addToCart } = useContext(CartContext);
 
   const [showPopup, setShowPopup] = useState(false);

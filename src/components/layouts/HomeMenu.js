@@ -19,32 +19,32 @@ export default function HomeMenu() {
   return (
     <section>
       <div className="absolute left-0 right-0 w-full justify-start">
-        <div className="absolute left-0 -top-[70px] text-left -z-10">
+        <div className="absolute left-0 top-[500px] text-left -z-10">
           <Image
-            src={"/salad.png"}
+            src={"/sideImage.png"}
             objectFit={"contain"}
             alt={"salad"}
-            height={189}
-            width={109}
+            height={300}
+            width={300}
           />
         </div>
-        <div className="absolute -top-[100px] right-0 -z-10">
+        <div className="absolute top-[100px] right-0 -z-10 transform rotate-180">
           <Image
-            src={"/salad.png"}
+            src={"/sideImage.png"}
             objectFit={"contain"}
             alt={"salad"}
             height={189}
-            width={107}
+            width={300}
           />
         </div>
       </div>
-      <div className="text-center mb-4">
+      <div className="text-center mb-4 mt-8">
         <SectionsHeaders
           subHeader={"check out"}
           mainHeader={"Our Best Sellers"}
         />
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-8 p-12 rounded-2xl">
         {bestSellers?.length > 0 &&
           bestSellers.map((item, i) => <MenuItem key={i} {...item} />)}
       </div>

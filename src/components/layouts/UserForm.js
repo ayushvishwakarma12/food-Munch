@@ -15,10 +15,14 @@ export default function UserForm({ user, onSave, handleFileChange, imageUrl }) {
   return (
     <div className="flex gap-2">
       <div className="p-2 rounded-lg">
-        <img src={imageUrl} alt="avtar" />
+        <img
+          src={imageUrl}
+          alt="avtar"
+          className="h-[100px] w-[100px] bg-white"
+        />
         <label>
           <input type="file" className="hidden" onChange={handleFileChange} />
-          <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
+          <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer mt-2  hover:bg-red-500 hover:text-white transition-all ease-in-out duration-500">
             Edit
           </span>
         </label>
@@ -62,7 +66,7 @@ export default function UserForm({ user, onSave, handleFileChange, imageUrl }) {
           onChange={(event) => setStreetAddress(event.target.value)}
         />
         <div className="flex gap-2">
-          <div>
+          <div className="grow">
             <label>City</label>
             <input
               type="text"
@@ -71,7 +75,7 @@ export default function UserForm({ user, onSave, handleFileChange, imageUrl }) {
               onChange={(event) => setCity(event.target.value)}
             />
           </div>
-          <div>
+          <div className="grow">
             <label>Postal Code</label>
             <input
               type="text"

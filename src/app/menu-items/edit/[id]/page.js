@@ -108,13 +108,13 @@ export default function EditMenuItemPage() {
   return (
     <section className="mt-8">
       <UserTabs isAdmin={true} />
-      <div className="max-w-md mx-auto mt-8">
+      <div className="max-w-2xl mx-auto mt-8">
         <Link className="button" href={"/menu-items"}>
           <Left />
           <span>Show all menu items</span>
         </Link>
       </div>
-      <form className="mt-8 max-w-md mx-auto" onSubmit={handleFormSubmit}>
+      <form className="mt-8 max-w-2xl mx-auto" onSubmit={handleFormSubmit}>
         <div
           className="grid gap-4 items-start"
           style={{ gridTemplateColumns: ".3fr .7fr" }}
@@ -141,7 +141,11 @@ export default function EditMenuItemPage() {
               onChange={(event) => setCategory(event.target.value)}
             >
               {categories?.length > 0 &&
-                categories.map((c) => <option value={c._id}>{c.name}</option>)}
+                categories.map((c) => (
+                  <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>
+                ))}
             </select>
             <label>Base price</label>
             <input
@@ -162,13 +166,11 @@ export default function EditMenuItemPage() {
               setProps={setExtraIngredeintPrices}
             />
             <button type="submit">Save</button>
-            <div className="max-w-md mx-auto mt-2">
-              <div className="max-w-xs ml-auto pl-4">
-                <DeleteButton
-                  label="Delete this menu item"
-                  onDelete={handleDeleteClick}
-                />
-              </div>
+            <div className="max-w-2xl ml-auto mt-4">
+              <DeleteButton
+                label="Delete this menu item"
+                onDelete={handleDeleteClick}
+              />
             </div>
           </div>
         </div>

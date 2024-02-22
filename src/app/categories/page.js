@@ -86,7 +86,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <section className="mt-8 max-w-lg mx-auto">
+    <section className="mt-8 max-w-2xl mx-auto">
       <UserTabs isAdmin={true} />
       <form className="mt-8" onSubmit={handleCategorySubmit}>
         <div className="flex gap-2 items-end">
@@ -126,9 +126,9 @@ export default function CategoriesPage() {
           categories.map((c, i) => (
             <div
               key={i}
-              className="bg-gray-100 rounded-xl items-center p-2 px-4 flex gap-1 mb-2"
+              className="bg-white rounded-xl items-center p-2 px-4 flex gap-1 mb-2"
             >
-              <div className="grow">{c.name}</div>
+              <div className="grow font-normal text-lg">{c.name}</div>
               <div className="flex gap-1">
                 <button
                   onClick={() => {
@@ -136,6 +136,7 @@ export default function CategoriesPage() {
                     setCategoryName(c.name);
                   }}
                   type="button"
+                  className="hover:bg-slate-200 transition-all ease-in-out duration-500"
                 >
                   Edit
                 </button>

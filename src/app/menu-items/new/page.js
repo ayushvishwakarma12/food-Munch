@@ -29,7 +29,11 @@ export default function NewMenuItemPage() {
   console.log(category);
   useEffect(() => {
     fetch("/api/categories").then((res) => {
-      res.json().then((categories) => setCategories(categories));
+      res.json().then((categories) => {
+        setCategories(categories);
+        console.log(categories[0]._id);
+        setCategory(categories[0]._id);
+      });
     });
     return () => {
       if (publicId && !isFormSubmit) {
@@ -50,7 +54,7 @@ export default function NewMenuItemPage() {
       extraIngredientPrices,
       category,
     };
-    console.log(data, sizes, extraIngredientPrices);
+    console.log(data, "c", category, sizes, extraIngredientPrices);
 
     const savingPromise = new Promise(async (resolve, reject) => {
       const response = await fetch("/api/menu-items", {
@@ -122,13 +126,13 @@ export default function NewMenuItemPage() {
   return (
     <section className="mt-8">
       <UserTabs isAdmin={true} />
-      <div className="max-w-md mx-auto mt-8">
+      <div className="max-w-2xl mx-auto mt-8">
         <Link className="button" href={"/menu-items"}>
           <Left />
           <span>Show all menu items</span>
         </Link>
       </div>
-      <form className="mt-8 max-w-md mx-auto" onSubmit={handleFormSubmit}>
+      <form className="mt-8 max-w-2xl mx-auto" onSubmit={handleFormSubmit}>
         <div
           className="grid gap-4 items-start"
           style={{ gridTemplateColumns: ".3fr .7fr" }}
@@ -166,7 +170,11 @@ export default function NewMenuItemPage() {
               onChange={(event) => setCategory(event.target.value)}
             >
               {categories?.length > 0 &&
-                categories.map((c) => <option value={c._id}>{c.name}</option>)}
+                categories.map((c) => (
+                  <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>
+                ))}
             </select>
             <label>Base price</label>
             <input

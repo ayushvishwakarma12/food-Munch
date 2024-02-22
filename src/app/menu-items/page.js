@@ -26,22 +26,27 @@ export default function MenuItemsPage() {
     return "Not an admin";
   }
   return (
-    <section className="mt-8 max-w-md mx-auto">
+    <section className="mt-8 max-w-2xl mx-auto">
       <UserTabs isAdmin={true} />
       <div className="mt-8">
-        <Link className="button" href={"/menu-items/new"}>
+        <Link
+          className="button  hover:bg-white transition-all ease-in-out duration-500"
+          href={"/menu-items/new"}
+        >
           <span>Create new menu item</span>
           <Right />
         </Link>
       </div>
       <div>
-        <h2 className="text-sm text-gray-500 mt-8">Edit menu items:</h2>
+        <h2 className="text-md font-bold text-gray-500 mt-8">
+          Edit menu items:
+        </h2>
         {menuItems.length > 0 &&
           menuItems.map((item, i) => (
             <Link
               key={i}
               href={"/menu-items/edit/" + item._id}
-              className="button mb-1"
+              className="button mb-2  hover:bg-white transition-all ease-in-out duration-500 leading-8"
             >
               {item.name}
             </Link>

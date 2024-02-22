@@ -6,7 +6,7 @@ export default function DeleteButton({ label, onDelete }) {
   if (showConfirm) {
     return (
       <div className="fixed bg-black/80 inset-0 flex items-center h-full justify-center">
-        <div className="bg-white p-4 rounded-lg">
+        <div className="bg-white p-4 rounded-lg ">
           <div>Are you sure you want to delete?</div>
           <div className="flex gap-2 mt-1">
             <button type="button" onClick={() => setShowConfirm(false)}>
@@ -14,7 +14,7 @@ export default function DeleteButton({ label, onDelete }) {
             </button>
             <button
               type="button"
-              className="primary"
+              className="primary "
               onClick={() => {
                 onDelete();
                 setShowConfirm(false);
@@ -29,7 +29,11 @@ export default function DeleteButton({ label, onDelete }) {
   }
 
   return (
-    <button type="button" onClick={() => setShowConfirm(true)}>
+    <button
+      type="button"
+      onClick={() => setShowConfirm(true)}
+      className=" hover:bg-red-500 hover:text-white transition-all ease-in-out duration-500"
+    >
       {label}
     </button>
   );

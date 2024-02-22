@@ -31,17 +31,20 @@ export default function UsersPage() {
           users.map((user, i) => (
             <div
               key={i}
-              className="bg-gray-100 rounded-lg mb-2 p-1 px-4 flex items-center gap-4"
+              className="bg-white rounded-lg mb-2 p-2 px-4 flex items-center gap-4"
             >
               <div className="grow grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="text-gray-700 grow">
+                <div className="text-gray-700 grow font-normal">
                   {!!user.name && <span>{user.name}</span>}
                   {!user.name && <span className="italic">No name</span>}
                 </div>
                 <span>{user.email}</span>
               </div>
               <div>
-                <Link className="button" href={"/users/" + user._id}>
+                <Link
+                  className="button  hover:bg-slate-200 transition-all ease-in-out duration-500"
+                  href={"/users/" + user._id}
+                >
                   Edit
                 </Link>
               </div>
