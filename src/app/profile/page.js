@@ -112,7 +112,7 @@ export default function ProfilePage() {
           user={user}
           onSave={handleProfileInfoUpdate}
           handleFileChange={handleFileChange}
-          imageUrl={imageUrl}
+          imageUrl={user?.imageUrl}
         />
       </div>
     </section>

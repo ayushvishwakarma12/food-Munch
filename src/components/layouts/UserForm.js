@@ -12,6 +12,7 @@ export default function UserForm({ user, onSave, handleFileChange, imageUrl }) {
   const [country, setCountry] = useState(user?.country || "");
   const [admin, setAdmin] = useState(user?.admin || "");
   const { data: loggedInUserData } = useProfile();
+
   return (
     <div className="flex gap-2">
       <div className="p-2 rounded-lg">
