@@ -46,7 +46,7 @@ export default function FoodDelivery() {
                   Our Best Delivered Categories
                 </h3>
                 <p className="text-slate-200 font-normal tracking-tight max-w-md">
-                  It's not just about bringing you good food from restaurents,
+                  It&apos;s not just about bringing you good food from restaurents,
                   we deliver you experience
                 </p>
               </span>
