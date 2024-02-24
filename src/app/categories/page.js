@@ -4,6 +4,7 @@ import UserTabs from "../../components/layouts/UserTabs";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import DeleteButton from "@/components/DeleteButton";
+import Loading from "../../components/Loading";
 
 export default function CategoriesPage() {
   const [categoryName, setCategoryName] = useState("");
@@ -78,7 +79,7 @@ export default function CategoriesPage() {
   }
 
   if (profileLoading) {
-    return "Loading user info...";
+    return <Loading className="h-[80vh]" />;
   }
 
   if (!profileData.admin) {

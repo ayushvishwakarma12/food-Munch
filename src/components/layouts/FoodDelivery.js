@@ -7,14 +7,14 @@ export default function FoodDelivery() {
       <div className="text-center mt-8 mb-12 ">
         <SectionsHeaders mainHeader={"Fastest Delivery & Easy Pickup"} />
       </div>
-      <section className="p-5 md:p-10 bg-amber-900 px-20">
-        <div className="flex gap-5">
+      <section className="p-5 md:p-10 bg-amber-900 px-5 md:px-20">
+        <div className="flex flex-col md:flex-row gap-5">
           <div className="bg-white rounded-full md:p-5 flex justify-center items-center mx-auto">
             <Image
               src={"/foodDelivery.png"}
               height={300}
               width={300}
-              className="p-2 md:p-10"
+              className="p-5 md:p-10"
             />
             <div className="relative">
               <div className=" bg-primary p-2 md:p-5 absolute text-white font-bold text-sm md:text-lg rounded-full rounded-bl-none bottom-[50px] -right-[20px]">
@@ -23,7 +23,7 @@ export default function FoodDelivery() {
             </div>
           </div>
           <div className="mx-auto">
-            <h2 className="text-white font-black text-base md:text-4xl tracking-wider mb-10">
+            <h2 className="text-white font-black text-base md:text-4xl tracking-wider mb-5 md:mb-10">
               Fastest Food <br />
               Delivery In Town
             </h2>

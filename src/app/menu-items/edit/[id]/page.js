@@ -9,6 +9,8 @@ import Left from "@/components/icons/Left";
 import { redirect, useParams } from "next/navigation";
 import MenuItemPriceProps from "@/components/layouts/MenuItemPriceProps";
 import DeleteButton from "@/components/DeleteButton";
+import Loading from "../../../../components/Loading";
+import { UploadPic } from "../../../../components/utils/Cloudinary";
 
 export default function EditMenuItemPage() {
   const { id } = useParams();
@@ -93,12 +95,34 @@ export default function EditMenuItemPage() {
     setRedirectToItems(true);
   }
 
+  async function handleFileChange(event) {
+    const files = event.target.files;
+
+    if (files?.length > 0) {
+      const promise = new Promise(async (resolve, reject) => {
+        const response = await UploadPic(files[0]);
+        if (response.secure_url) {
+          setImageUrl(response.secure_url);
+          //setPublicId(response.public_id);
+          resolve();
+        } else {
+          reject();
+        }
+      });
+      toast.promise(promise, {
+        loading: "Loading...",
+        success: "Pic uploaded successfully",
+        error: "Error when uploading",
+      });
+    }
+  }
+
   if (redirectToItems) {
     return redirect("/menu-items");
   }
 
   if (loading) {
-    return "Loading user info...";
+    return <Loading className="h-[80vh]" />;
   }
 
   if (!data.admin) {
@@ -121,6 +145,16 @@ export default function EditMenuItemPage() {
         >
           <div className="p-2 rounded-lg">
             <img src={imageUrl} className="" alt="avtar" />
+            <label>
+              <input
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer mt-2  hover:bg-red-500 hover:text-white transition-all ease-in-out duration-500">
+                Edit
+              </span>
+            </label>
           </div>
           <div className="grow">
             <label>Item name</label>

@@ -32,11 +32,14 @@ export default function Header() {
     name = userData?.email;
   }
   return (
-    <header className="flex items-center justify-between px-12 py-4">
-      <nav className="flex items-center gap-8 text-gray-500 font-semibold">
-        <Link className="text-primary font-semibold text-2xl" href={"/"}>
-          Food Munch
-        </Link>
+    <header className="flex items-center justify-between px-2 md:px-12 py-4">
+      <Link
+        className="text-primary font-semibold text-lg md:text-2xl mr-4"
+        href={"/"}
+      >
+        Food&nbsp;Munch
+      </Link>
+      <nav className="hidden md:flex items-center gap-8 text-gray-500 font-semibold">
         <Link
           href={"/"}
           className={path === "/" ? " underline underline-offset-8" : ""}
@@ -68,8 +71,8 @@ export default function Header() {
             <Link
               className={
                 path === "/profile"
-                  ? " underline underline-offset-8 whitespace-nowrap"
-                  : "whitespace-nowrap"
+                  ? " underline underline-offset-8 whitespace-nowrap text-sm md:text-lg"
+                  : "whitespace-nowrap text-sm md:text-lg"
               }
               href={"/profile"}
             >
@@ -77,7 +80,7 @@ export default function Header() {
             </Link>
             <button
               onClick={() => signOut()}
-              className="bg-primary text-white px-8 rounded-full py-2"
+              className="bg-primary text-white text-sm md:text-lg px-4 md:px-8 rounded-full py-2"
             >
               Logout
             </button>
@@ -88,7 +91,7 @@ export default function Header() {
             <Link href={"/login"}>Login</Link>
             <Link
               href={"/register"}
-              className="bg-primary text-white px-8 rounded-full py-2"
+              className="bg-primary text-white text-sm md:text-lg px-4 md:px-8 rounded-full py-2"
             >
               Register
             </Link>

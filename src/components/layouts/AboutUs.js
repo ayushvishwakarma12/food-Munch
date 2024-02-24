@@ -7,9 +7,9 @@ export default function AboutUs() {
       <div id="about" className="text-center mt-20 mb-5">
         <SectionsHeaders mainHeader={"Our Story & Services"} />
       </div>
-      <section className="mt-10 bg-amber-900 p-10">
-        <div className="grid grid-cols-2 ">
-          <div className="font-normal text-lg text-center max-w-md mx-auto leading-8  shadow-2xl p-10 rounded-lg bg-white flex flex-col justify-center items-center">
+      <section className="mt-10 bg-amber-900 p-5 md:p-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 ">
+          <div className="font-normal text-base md:text-lg text-center max-w-md mx-auto leading-8  shadow-2xl p-10 rounded-lg bg-white flex flex-col justify-center items-center">
             <Image src={"/salad.png"} height={200} width={200} />
             <span className="text-2xl font-semibold text-amber-900 tracking-tight mb-5">
               Rooted in passion,
@@ -17,9 +17,9 @@ export default function AboutUs() {
             we curate unforgettable dining experience and offer exceptional
             services, blending culinary artistry with warm hospitality
           </div>
-          <div className="grid grid-cols-1 gap-10">
-            <div className="flex gap-5">
-              <div className="p-10 shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
+          <div className="grid grid-cols-1 gap-2 md:gap-10 mt-4 md:mt-0">
+            <div className="flex gap-2 md:gap-5">
+              <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
                 <Image src={"/burger4.png"} height={50} width={50} />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Catering
@@ -28,7 +28,7 @@ export default function AboutUs() {
                   Delight your guests with our flavors and presentation
                 </p>
               </div>
-              <div className="p-10 shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
+              <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
                 <Image src={"/delivery2.png"} height={50} width={50} />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Fast Delivery
@@ -38,8 +38,8 @@ export default function AboutUs() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-5">
-              <div className="p-10 shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
+            <div className="flex gap-2 md:gap-5 ">
+              <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
                 <Image src={"/cart.png"} height={50} width={50} />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Online Ordering
@@ -48,7 +48,7 @@ export default function AboutUs() {
                   Explore menu & order with ease using our online ordering
                 </p>
               </div>
-              <div className="p-10 shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
+              <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
                 <Image src={"/gift.png"} height={50} width={50} />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Gift Cards

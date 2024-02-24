@@ -4,6 +4,7 @@ import { useProfile } from "@/components/UseProfile";
 import UserTabs from "@/components/layouts/UserTabs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
 
 export default function UsersPage() {
   const { loading, data } = useProfile();
@@ -18,7 +19,7 @@ export default function UsersPage() {
   }, []);
 
   if (loading) {
-    return "Loading user info...";
+    return <Loading className="h-[80vh]" />;
   }
   if (!data.admin) {
     return "Not an admin";

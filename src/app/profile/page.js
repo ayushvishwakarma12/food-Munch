@@ -8,6 +8,7 @@ import UserTabs from "../../components/layouts/UserTabs";
 import { UploadPic, DeletePic } from "../../components/utils/Cloudinary";
 import toast from "react-hot-toast";
 import UserForm from "@/components/layouts/UserForm";
+import Loading from "../../components/Loading";
 
 export default function ProfilePage() {
   const session = useSession();
@@ -86,7 +87,7 @@ export default function ProfilePage() {
   }
 
   if (status === "loading" || !profileFetched) {
-    return "loading...";
+    return <Loading className="h-[80vh]" />;
   }
 
   if (status === "unauthenticated") {

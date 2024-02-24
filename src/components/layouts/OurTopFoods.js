@@ -11,7 +11,7 @@ export default function OurTopFoods() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-10 mt-20">
           <Link href={"/menu"}>
             <div className="scale-100 hover:scale-110 transition-all duration-500 cursor-pointer">
-              <div className="h-[180px] md:min-h-[200px]">
+              <div className="h-[180px] md:min-h-[200px] flex justify-center items-center">
                 <Image
                   src={"/pizzaa.png"}
                   alt={"pasta"}
@@ -37,7 +37,7 @@ export default function OurTopFoods() {
           </Link>
           <Link href={"/menu"}>
             <div className="scale-100 hover:scale-110 transition-all duration-500 cursor-pointer">
-              <div className="h-[180px] md:min-h-[200px]">
+              <div className="h-[180px] md:min-h-[200px] flex justify-center items-center">
                 <Image
                   src={"/shakes.png"}
                   alt={"pasta"}
@@ -63,13 +63,13 @@ export default function OurTopFoods() {
           </Link>
           <Link href={"/menu"}>
             <div className="scale-100 hover:scale-110 transition-all duration-500 cursor-pointer">
-              <div className="h-[180px] md:min-h-[200px]">
+              <div className="h-[180px] md:min-h-[200px] flex justify-center items-center">
                 <Image
                   src={"/iceCream.png"}
                   alt={"pasta"}
                   height={200}
                   width={200}
-                  className="relative bottom-5 left-8"
+                  className="relative md:bottom-5 md:left-0"
                 />
               </div>
               <div>
@@ -90,7 +90,7 @@ export default function OurTopFoods() {
           </Link>
           <Link href={"/menu"}>
             <div className="scale-100 hover:scale-110 transition-all duration-500 cursor-pointer">
-              <div className="h-[180px] md:min-h-[200px]">
+              <div className="h-[180px] md:min-h-[200px] flex justify-center items-center">
                 <Image
                   src={"/burger.png"}
                   alt={"pasta"}
