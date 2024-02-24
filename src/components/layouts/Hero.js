@@ -36,12 +36,11 @@ export default function Hero() {
         <Image
           src={"/food.png"}
           layout={"fill"}
-          objectFit={"contain"}
           alt={"pizza"}
           priority
-          className="z-10"
+          className="z-10 object-contain"
         />
-        <div className="hidden md:block absolute bottom-10 left-10 z-0 transform -rotate-12">
+        <div className="hidden object-contain md:block absolute bottom-10 left-10 z-0 transform -rotate-12">
           <Image
             src={"/salad2.png"}
             height={400}

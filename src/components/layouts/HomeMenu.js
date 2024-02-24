@@ -23,7 +23,6 @@ export default function HomeMenu() {
         <div className="absolute left-0 top-0 text-left -z-10">
           <Image
             src={"/sideImage.png"}
-            objectFit={"contain"}
             alt={"salad"}
             height={200}
             width={200}
@@ -32,7 +31,6 @@ export default function HomeMenu() {
         <div className="absolute right-0 -z-10 top-0 transform rotate-180">
           <Image
             src={"/sideImage.png"}
-            objectFit={"contain"}
             alt={"salad"}
             height={189}
             width={200}

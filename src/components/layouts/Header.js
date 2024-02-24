@@ -6,12 +6,15 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../AppContext";
 import ShoppingCart from "@/components/icons/ShoppingCart";
 import { usePathname } from "next/navigation";
+import Bars from "@/components/icons/Bars";
+import Close from "@/components/icons/Close";
 
 export default function Header() {
   const [userName, setUserName] = useState("");
   const session = useSession();
   const status = session.status;
   const userData = session.data?.user;
+  const [sidePanel, setSidePanel] = useState(false);
 
   //console.log(userData);
   let name = userData?.name || userData?.email;
@@ -65,14 +68,14 @@ export default function Header() {
           Contact
         </Link>
       </nav>
-      <nav className="flex items-center gap-4 text-gray-500 font-semibold">
+      <nav className="flex items-center gap-2 md:gap-4 text-gray-500 font-semibold ml-auto ">
         {status === "authenticated" && (
           <>
             <Link
               className={
                 path === "/profile"
-                  ? " underline underline-offset-8 whitespace-nowrap text-sm md:text-lg"
-                  : "whitespace-nowrap text-sm md:text-lg"
+                  ? "hidden md:flex underline underline-offset-8 whitespace-nowrap text-sm md:text-lg"
+                  : "hidden md:flex whitespace-nowrap text-sm md:text-lg"
               }
               href={"/profile"}
             >
@@ -80,7 +83,7 @@ export default function Header() {
             </Link>
             <button
               onClick={() => signOut()}
-              className="bg-primary text-white text-sm md:text-lg px-4 md:px-8 rounded-full py-2"
+              className="hidden md:block bg-primary text-white text-sm md:text-lg px-4 md:px-8 rounded-full py-2"
             >
               Logout
             </button>
@@ -107,12 +110,57 @@ export default function Header() {
             }
           >
             <ShoppingCart />
+
             <span className="absolute -top-2 -right-4 bg-primary text-white text-sm py-1 px-2 rounded-full leading-3">
               {cartProducts?.length}
             </span>
           </Link>
         )}
       </nav>
+      <div className="md:hidden">
+        <div className="ml-5" onClick={() => setSidePanel(true)}>
+          <Bars />
+        </div>
+
+        <div
+          className={`top-0 bg-white h-screen fixed w-[200px] right-0 z-20 transition-transform duration-500 ease-in-out ${
+            sidePanel ? "open" : "closed"
+          }`}
+        >
+          <div className="flex flex-col p-2 py-5">
+            <div className="flex gap-5 items-center">
+              <span onClick={() => setSidePanel(false)}>
+                <Close />
+              </span>
+              {status === "authenticated" && (
+                <span className=" ml-auto font-normal">Hello, {name}</span>
+              )}
+            </div>
+            <hr className="mt-5 mb-5" />
+            <ul className="flex flex-col justify-center items-center text-slate-500 font-semibold leading-8">
+              <Link href={"/"} onClick={() => setSidePanel(false)}>
+                <li>Home</li>
+              </Link>
+              <Link href={"/menu"} onClick={() => setSidePanel(false)}>
+                <li>Menu</li>
+              </Link>
+              {status === "authenticated" && (
+                <>
+                  <Link href={"/profile"} onClick={() => setSidePanel(false)}>
+                    <li>Profile</li>
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="block bg-primary text-white w-[100px] text-sm md:text-lg px-4 md:px-8 rounded-2xl py-2"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+            </ul>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }

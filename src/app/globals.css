@@ -62,3 +62,30 @@ div.tabs > * {
 div.tabs > *.active {
   @apply bg-primary text-white;
 }
+
+/* Add this CSS to your stylesheets */
+.open {
+  animation: slideIn 0.8s ease forwards;
+}
+
+.closed {
+  animation: slideOut 0.8s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(200px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(200px);
+  }
+}
