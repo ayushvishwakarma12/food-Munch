@@ -98,8 +98,11 @@ export default function MenuItem(menuItem) {
                       <h3 className="text-center text-gray-700 ">
                         Any extras?
                       </h3>
-                      {extraIngredientPrices.map((extraThing) => (
-                        <label className="flex items-center gap-2 p-4 border rounded-md mb-1">
+                      {extraIngredientPrices.map((extraThing, index) => (
+                        <label
+                          key={index}
+                          className="flex items-center gap-2 p-4 border rounded-md mb-1"
+                        >
                           <input
                             type="checkbox"
                             onClick={() =>
