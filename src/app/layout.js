@@ -2,8 +2,13 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layouts/Header";
 import AppProvider from "@/components/AppContext";
+import { Toaster } from "react-hot-toast";
+import Footer from "../components/layouts/Footer";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700", "900"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -12,14 +17,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className="scroll-smooth bg-gradient-to-r from-[#fef1e1] to-pink-100/50"
+    >
+      <body className={roboto.className} suppressHydrationWarning={true}>
         <AppProvider>
           <Header />
-          <main className="max-w-4xl mx-auto p-4">{children}</main>
-          <footer className="border-t p-8 text-center text-gray-500 mt-16">
-            &copy; 2024 All rights reserved
-          </footer>
+          <main className=" max-w-7xl mx-auto p-4">
+            {children}
+            <Toaster />
+          </main>
+          <Footer />
         </AppProvider>
       </body>
     </html>

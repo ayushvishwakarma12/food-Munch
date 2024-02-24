@@ -3,6 +3,7 @@ const { model, models, Schema } = require("mongoose");
 
 const UserSchema = new Schema(
   {
+    imageUrl: { type: String },
     name: { type: String },
     email: { type: String, required: true, unique: true },
     password: {
@@ -20,6 +21,7 @@ const UserSchema = new Schema(
     postalCode: { type: String },
     city: { type: String },
     country: { type: String },
+    admin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -4,71 +4,90 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import UserTabs from "../../components/layouts/UserTabs";
+import { UploadPic, DeletePic } from "../../components/utils/Cloudinary";
+import toast from "react-hot-toast";
+import UserForm from "@/components/layouts/UserForm";
+import Loading from "../../components/Loading";
 
 export default function ProfilePage() {
   const session = useSession();
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState(null);
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { status } = session;
-  const [phone, setPhone] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [profileFetched, setProfileFetched] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [publicId, setPublicId] = useState("");
+  const [isFormSubmit, setIsFormSubmit] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
       fetch("/api/profile").then((response) => {
         response.json().then((data) => {
-          setPhone(data.phone);
-          setStreetAddress(data.streetAddress);
-          setPostalCode(data.postalCode);
-          setCity(data.city);
-          setCountry(data.country);
-          setUserName(data.name);
+          setUser(data);
+          setIsAdmin(data.admin);
+          setProfileFetched(true);
         });
       });
     }
+    return () => {
+      if (publicId && !isFormSubmit) {
+        DeletePic(publicId);
+        console.log("pic deleted");
+      }
+    };
   }, [session, status]);
 
-  async function handleProfileInfoUpdate(event) {
+  function deletePreviousImage() {
+    DeletePic(publicId);
+  }
+
+  async function handleProfileInfoUpdate(event, data) {
     event.preventDefault();
     setSaved(false);
     setIsSaving(true);
     const response = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        name: userName,
-        streetAddress,
-        phone,
-        postalCode,
-        city,
-        country,
-      }),
+      body: JSON.stringify(data),
     });
     setIsSaving(false);
+    setIsFormSubmit(true);
     if (response.ok) {
       setSaved(true);
     }
   }
 
   async function handleFileChange(event) {
-    const files = event.files;
+    const files = event.target.files;
+
+    if (publicId) {
+      deletePreviousImage();
+    }
 
     if (files?.length > 0) {
-      const data = new FormData();
-      data.set("files", files);
-      await fetch("/api/upload", {
-        method: "POST",
-        body: data,
+      const promise = new Promise(async (resolve, reject) => {
+        const response = await UploadPic(files[0]);
+        if (response.secure_url) {
+          setImageUrl(response.secure_url);
+          setPublicId(response.public_id);
+          resolve();
+        } else {
+          reject();
+        }
+      });
+      toast.promise(promise, {
+        loading: "Loading...",
+        success: "Pic uploaded successfully",
+        error: "Error when uploading",
       });
     }
   }
 
-  if (status === "loading") {
-    return "loading...";
+  if (status === "loading" || !profileFetched) {
+    return <Loading className="h-[80vh]" />;
   }
 
   if (status === "unauthenticated") {
@@ -76,8 +95,8 @@ export default function ProfilePage() {
   }
   return (
     <section className="mt-8">
-      <h1 className="text-center mb-4 text-primary text-4xl">Profile</h1>
-      <div className="max-w-md mx-auto">
+      <UserTabs isAdmin={isAdmin} />
+      <div className=" max-w-7xl mx-auto">
         {saved && (
           <h2 className="text-center bg-green-100 p-4 rounded-lg border border-1 border-green-300">
             Profile Saved!
@@ -89,79 +108,13 @@ export default function ProfilePage() {
           </h2>
         )}
       </div>
-      <div className="max-w-md mx-auto">
-        <div className="flex gap-2">
-          <div className="p-2 rounded-lg">
-            <Image src={"/"} width={80} height={80} alt="avtar" />
-            <label>
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
-                Edit
-              </span>
-            </label>
-          </div>
-          <form className="grow" onSubmit={handleProfileInfoUpdate}>
-            <label>First and Last name</label>
-            <input
-              type="text"
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
-              placeholder="First and last name"
-            />
-            <label>Email</label>
-            <input
-              type="email"
-              value={session?.data?.user?.email}
-              disabled={true}
-            />
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Phone number"
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-            />
-            <label>Street Address</label>
-            <input
-              type="text"
-              placeholder="Street address"
-              value={streetAddress}
-              onChange={(event) => setStreetAddress(event.target.value)}
-            />
-            <div className="flex gap-2">
-              <div>
-                <label>City</label>
-                <input
-                  type="text"
-                  placeholder="City"
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
-                />
-              </div>
-              <div>
-                <label>Postal Code</label>
-                <input
-                  type="text"
-                  placeholder="Postal code"
-                  value={postalCode}
-                  onChange={(event) => setPostalCode(event.target.value)}
-                />
-              </div>
-            </div>
-            <label>Country</label>
-            <input
-              type="text"
-              placeholder="Country"
-              value={country}
-              onChange={(event) => setCountry(event.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+      <div className=" max-w-2xl mx-auto mt-8">
+        <UserForm
+          user={user}
+          onSave={handleProfileInfoUpdate}
+          handleFileChange={handleFileChange}
+          imageUrl={user?.imageUrl}
+        />
       </div>
     </section>
   );
