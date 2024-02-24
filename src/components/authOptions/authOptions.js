@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { User } from "../../models/User";
+import { User } from "../../app/models/User";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
