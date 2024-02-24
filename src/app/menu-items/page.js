@@ -50,7 +50,7 @@ export default function MenuItemsPage() {
         </h2>
         {categories?.length > 0 &&
           categories.map((category, i) => (
-            <div>
+            <div key={category._id}>
               <h3 className="text-lg font-normal text-center mt-5 mb-5">
                 {category.name}
               </h3>
@@ -64,7 +64,6 @@ export default function MenuItemsPage() {
                         href={"/menu-items/edit/" + item._id}
                         className="button mb-2 p-0 hover:bg-white transition-all ease-in-out duration-500 leading-8 shadow-lg hover:shadow-xl"
                       >
-                        {console.log(item)}
                         <div className="flex flex-col justify-center items-center text-center">
                           <img src={item.imageUrl} className=" h-32 w-32" />
                           {item.name}

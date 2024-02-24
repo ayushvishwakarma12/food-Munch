@@ -10,7 +10,7 @@ export default function AboutUs() {
       <section className="mt-10 bg-amber-900 p-5 md:p-10">
         <div className="grid grid-cols-1 md:grid-cols-2 ">
           <div className="font-normal text-base md:text-lg text-center max-w-md mx-auto leading-8  shadow-2xl p-10 rounded-lg bg-white flex flex-col justify-center items-center">
-            <Image src={"/salad.png"} height={200} width={200} />
+            <Image src={"/salad.png"} height={200} width={200} alt="salad" />
             <span className="text-2xl font-semibold text-amber-900 tracking-tight mb-5">
               Rooted in passion,
             </span>
@@ -20,7 +20,12 @@ export default function AboutUs() {
           <div className="grid grid-cols-1 gap-2 md:gap-10 mt-4 md:mt-0">
             <div className="flex gap-2 md:gap-5">
               <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
-                <Image src={"/burger4.png"} height={50} width={50} />
+                <Image
+                  src={"/burger4.png"}
+                  height={50}
+                  width={50}
+                  alt="burger"
+                />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Catering
                 </h3>
@@ -29,7 +34,12 @@ export default function AboutUs() {
                 </p>
               </div>
               <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
-                <Image src={"/delivery2.png"} height={50} width={50} />
+                <Image
+                  src={"/delivery2.png"}
+                  height={50}
+                  width={50}
+                  alt="foodDelivery"
+                />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Fast Delivery
                 </h3>
@@ -40,7 +50,7 @@ export default function AboutUs() {
             </div>
             <div className="flex gap-2 md:gap-5 ">
               <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
-                <Image src={"/cart.png"} height={50} width={50} />
+                <Image src={"/cart.png"} height={50} width={50} alt="cart" />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Online Ordering
                 </h3>
@@ -49,7 +59,7 @@ export default function AboutUs() {
                 </p>
               </div>
               <div className="p-5 md:p-10  shadow-lg rounded-2xl bg-white flex  flex-col justify-center items-center text-center">
-                <Image src={"/gift.png"} height={50} width={50} />
+                <Image src={"/gift.png"} height={50} width={50} alt="gift" />
                 <h3 className="text-amber-900 font-bold text-lg uppercase">
                   Gift Cards
                 </h3>

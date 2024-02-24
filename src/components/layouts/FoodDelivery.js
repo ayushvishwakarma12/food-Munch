@@ -12,6 +12,7 @@ export default function FoodDelivery() {
           <div className="bg-white rounded-full md:p-5 flex justify-center items-center mx-auto">
             <Image
               src={"/foodDelivery.png"}
+              alt="foodDelivery"
               height={300}
               width={300}
               className="p-5 md:p-10"
